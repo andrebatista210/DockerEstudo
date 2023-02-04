@@ -61,11 +61,13 @@ services:
     networks:
       - fila
   worker:
-    image: python:3.6
+    #image: python:3.6  # passou a vir do Dockerfile
+    build: worker
     volumes:
       - ./worker:/worker
     working_dir: /worker
-    command: bash ./app.sh
+    # command: bash ./app.sh # passou a vir do Dockerfile
+    command: worker.py
     networks:
       - fila
     depends_on:
