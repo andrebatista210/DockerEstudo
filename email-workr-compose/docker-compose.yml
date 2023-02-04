@@ -7,6 +7,7 @@ volumes:
 networks:
   banco:
   web:
+  fila:
 
 
 services:
@@ -14,7 +15,7 @@ services:
     image: postgres:9.6
     environment:
       - POSTGRES_PASSWORD="postgres"
-      - POSTGRES_HOST_AUTH_METHOD=trust  #tira erro na autenticação do insert do postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust #tira erro na autenticação do insert do postgres
     volumes:
       # Volume dos dados
       - dados:/var/lib/postgresql/data
@@ -51,5 +52,21 @@ services:
     networks:
       - banco
       - web
+      - fila
     depends_on:
       - db
+      - queue
+  queue:
+    image: redis:3.2
+    networks:
+      - fila
+  worker:
+    image: python:3.6
+    volumes:
+      - ./worker:/worker
+    working_dir: /worker
+    command: bash ./app.sh
+    networks:
+      - fila
+    depends_on:
+      - queue
