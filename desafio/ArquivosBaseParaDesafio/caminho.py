@@ -6,7 +6,7 @@ import csv
 import string
 
 
-caminho_arquivo = 'D://Arquivos//'
+caminho_arquivo = 'D://Arquivos//APROCESSAR//'
 caminho_api_download = 'https://api.worldbank.org/v2/en/indicator/NY.GDP.MKTP.KD.ZG?downloadformat=csv'
 
 def baixar_arquivo(url, endereco):
